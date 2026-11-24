@@ -206,6 +206,7 @@ def score():
             missing.append((x["ocr_id"], "entry not found"))
             continue
         vals = hand_values(entry)
+        extracted = {(r[3], r[4], r[5], r[6]): r[7] for r in rows if r[1] == x["ocr_id"]}
         for r in rows:
             if r[1] != x["ocr_id"] or r[8] not in JUDGED:
                 continue
@@ -224,12 +225,17 @@ def score():
                     second_ok = not mine_changes
                 else:
                     second_ok = canon(field, mine if mine_changes else mine_init) == canon(field, ref)
+                second_value = canon(field, mine if mine_changes else mine_init)
+                g_init = extracted.get((r[3], r[4], r[5], field.replace("final", "initial")), ABSENT)
+                g_changes = r[7] != ABSENT and canon(field, r[7]) != canon(field, g_init)
+                gemini_value = canon(field, r[7] if g_changes else g_init)
             else:
                 second_ok = canon(field, mine) == canon(field, ref)
+                second_value, gemini_value = canon(field, mine), canon(field, r[7])
             results.append({"ocr_id": r[1], "weight": float(sample[r[1]]["weight"]), "field": field,
                             "printed": r[10], "reference_absent": ref == ABSENT,
                             "gemini": r[8] == "Correct",
-                            "second": second_ok})
+                            "second": second_ok, "gemini_value": gemini_value, "second_value": second_value})
     with open(os.path.join(OUT, "scores.csv"), "w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(results[0].keys()))
         w.writeheader()
@@ -257,9 +263,23 @@ def score():
     none_ = sum(1 for i in d if not i["gemini"] and not i["second"])
     g_only = sum(1 for i in d if i["gemini"] and not i["second"])
     s_only = sum(1 for i in d if not i["gemini"] and i["second"])
+    lines += [f"- weighted to two decimals: Gemini {acc(d, 'gemini'):.2f}%, Opus {acc(d, 'second'):.2f}%; unweighted: "
+              f"Gemini {100 * sum(i['gemini'] for i in d) / len(d):.1f}%, Opus {100 * sum(i['second'] for i in d) / len(d):.1f}%; "
+              f"verdicts differ on {g_only + s_only} of {len(d)} fields."]
     lines += [f"- both right {both}, both wrong {none_}, only Gemini right {g_only}, only Opus right {s_only} "
               f"(of {len(d)}).",
-              f"- Of the fields Gemini got wrong, Opus also got {100 * none_ / max(none_ + s_only, 1):.0f}% wrong."]
+              f"- Of the fields Gemini got wrong, Opus also got {100 * none_ / max(none_ + s_only, 1):.0f}% wrong.",
+              f"- Base rates: Opus wrong on {100 * (none_ + g_only) / len(d):.0f}% of these fields overall and on "
+              f"{100 * g_only / max(both + g_only, 1):.0f}% of those Gemini got right.",
+              f"- Same wrong value: in {sum(1 for i in d if not i['gemini'] and not i['second'] and i['gemini_value'] == i['second_value'])}"
+              f" of the {none_} fields both got wrong "
+              f"({100 * sum(1 for i in d if not i['gemini'] and not i['second'] and i['gemini_value'] == i['second_value']) / max(none_, 1):.0f}%)"
+              " the two models gave the same value."]
+    for f in ("initial_position", "initial_orientation", "final_position", "final_orientation"):
+        bw = [i for i in d if i["field"] == f and not i["gemini"] and not i["second"]]
+        if bw:
+            same = sum(1 for i in bw if i["gemini_value"] == i["second_value"])
+            lines.append(f"- {f}: both wrong {len(bw)}, same wrong value {same} ({100 * same / len(bw):.0f}%).")
     for f in ("final_position", "final_orientation"):
         ch = [i for i in results if i["field"] == f and not i["reference_absent"]]
         lines.append(f"- {f} with a real change: Gemini {acc(ch, 'gemini'):.1f}%, Opus {acc(ch, 'second'):.1f}% "

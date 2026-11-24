@@ -129,7 +129,14 @@ def main():
         out.append(f"- {g}: {100 * base:.1f}% with equivalences, {100 * strict:.1f}% if the "
                    f"{sum(1 for r in hit if members is None or r[6] in members)} fields accepted only through an "
                    "equivalence counted as wrong.")
-    out += [f"- Values involved: {dict(Counter(e for r in hit for e in EQUIVALENT if e in str(r[7])))}", ""]
+    rows = groups["drawing"]
+    base = weighted([(weight[r[1]], r[8] == "Correct") for r in rows])
+    strict = weighted([(weight[r[1]], r[8] == "Correct" and r not in hit) for r in rows])
+    out.append(f"- values only in the drawing (provenance class): {100 * base:.1f}% with equivalences, "
+               f"{100 * strict:.1f}% without ({sum(1 for r in hit if r in rows)} fields).")
+    out += [f"- Values involved: {dict(Counter(e for r in hit for e in EQUIVALENT if e in str(r[7])))}",
+            "- 'Palm backward' is not in the extraction-time catalog, so it never appears as an extracted value; a palm "
+            "dictated as facing the signer was scored against 'Palm inward', the only catalog value for it.", ""]
 
     manner = {(r[1], r[3], r[4], r[5]): str(r[7]) for r in fields if r[6] == "movement_manner"}
     rep_wrong = [r for r in judged if r[6] == "movement_repetition" and r[8] == "Wrong"]
@@ -179,6 +186,7 @@ def main():
     from second_auditor_results import RETURNED, palm, pos
     norm = {"initial_position": pos, "final_position": pos, "initial_orientation": palm, "final_orientation": palm}
     same, total = Counter(), Counter()
+    reading_rows = defaultdict(list)
     for r in load_workbook(RETURNED, read_only=True)["describir"].iter_rows(min_row=2, values_only=True):
         if r[0] is None or (r[5] or "").strip().lower() == "no":
             continue
@@ -193,14 +201,28 @@ def main():
                 ref[f] = ref[init]
             if a2[f] in (None, "", "(sin cambio)"):
                 a2[f] = a2[init]
+        sign = all_rows[next(iter(keys.values()))][1]
         for f in DRAWN:
             total[f] += 1
             same[f] += norm[f](ref[f]) == norm[f](a2[f])
+            reading_rows[f].append((sign, norm[f](ref[f]) == norm[f](a2[f])))
     out += ["", "Readings of the drawing (first auditor's reference value against the second auditor's description):",
             ""] + [f"- {f}: {same[f]}/{total[f]} ({100 * same[f] / total[f]:.1f}%)" for f in DRAWN] + [
             f"- all drawn fields: {sum(same.values())}/{sum(total.values())} "
             f"({100 * sum(same.values()) / sum(total.values()):.1f}%)"]
     sign_of = {i: r[1] for i, r in all_rows.items()}
+    ones = defaultdict(lambda: 1.0)
+    out += ["", "Sign-level bootstrap intervals (28 signs, unweighted) for the initial states:", "",
+            "| Field | model vs A1 | model vs A2 | readings A1 vs A2 |", "|---|---|---|---|"]
+    for f in ("initial_position", "initial_orientation"):
+        d = [p for p in desc if p["field"] == f]
+        cells = []
+        for rows_ in ([(sign_of[int(p["fields_row"])], p["first_auditor_verdict"] == "Correct") for p in d],
+                      [(sign_of[int(p["fields_row"])], p["second_auditor_verdict"] == "Correct") for p in d],
+                      reading_rows[f]):
+            lo, hi = boot(rows_, ones, rng)
+            cells.append(f"{100 * sum(ok for _, ok in rows_) / len(rows_):.1f}% ({100 * lo:.0f}–{100 * hi:.0f})")
+        out.append(f"| {f} | " + " | ".join(cells) + " |")
     acc = defaultdict(lambda: [0, 0])
     arm = {}
     for p in pairs:
