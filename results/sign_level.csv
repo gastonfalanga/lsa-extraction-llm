@@ -1,0 +1,9 @@
+method,measure,n,correct,raw_%,weighted_%,ci95_low,ci95_high
+dictation,hand_count,147,141,95.9,97.1,92.3,98.9
+dictation,variant_count,150,148,98.7,99.4,95.8,99.9
+dictation,component_counts,150,148,98.7,99.3,95.7,99.9
+dictation,whole sign correct,150,12,8.0,10.2,6.0,16.9
+pooled,hand_count,147,141,95.9,97.1,92.3,98.9
+pooled,variant_count,150,148,98.7,99.4,95.8,99.9
+pooled,component_counts,150,148,98.7,99.3,95.7,99.9
+pooled,whole sign correct,150,12,8.0,10.2,6.0,16.9

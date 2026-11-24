@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+title: "LSA extraction methodology: code, schema, prompt and audit verdicts"
+message: "If you use this material, please cite the paper and this repository."
+type: software
+authors:
+  - family-names: "Falanga"
+    given-names: "Gaston N."
+    orcid: "https://orcid.org/0009-0001-0147-756X"
+license: CC-BY-NC-4.0
+keywords:
+  - sign language
+  - Argentine Sign Language
+  - multimodal LLM
+  - information extraction
+  - JSON Schema
+  - human-in-the-loop

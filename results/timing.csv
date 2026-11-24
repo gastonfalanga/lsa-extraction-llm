@@ -1,0 +1,6 @@
+phase,task,signs,seconds,seconds_per_sign
+dictation,dictation,150,5940,39.6
+excel pass (superseded by dictation),visual,60,2770,46.2
+main,text,149,4786,32.1
+pilot,text,10,410,41.0
+pilot,visual,10,720,72.0

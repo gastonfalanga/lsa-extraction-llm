@@ -1,0 +1,23 @@
+method,group,field,n,correct,raw_%,weighted_%,ci95_low,ci95_high
+dictation,written,initial_configuration,318,311,97.8,97.7,95.0,98.9
+dictation,written,final_configuration,317,314,99.1,99.8,98.1,100.0
+dictation,written,movement_manner,317,303,95.6,95.6,92.2,97.5
+dictation,written,movement_path,316,266,84.2,83.3,78.1,87.4
+dictation,written,movement_contact,318,305,95.9,94.9,91.4,97.0
+dictation,written,movement_repetition,317,276,87.1,85.2,80.3,89.1
+dictation,written,non_manual_components,212,209,98.6,99.7,97.1,100.0
+dictation,drawing only,initial_position,316,181,57.3,58.1,51.9,64.1
+dictation,drawing only,initial_orientation,315,193,61.3,60.9,54.7,66.8
+dictation,drawing only,final_position,316,268,84.8,85.5,80.6,89.3
+dictation,drawing only,final_orientation,316,255,80.7,80.5,75.1,85.0
+pooled,written,initial_configuration,318,311,97.8,97.7,95.0,98.9
+pooled,written,final_configuration,317,314,99.1,99.8,98.1,100.0
+pooled,written,movement_manner,317,303,95.6,95.6,92.2,97.5
+pooled,written,movement_path,316,266,84.2,83.3,78.1,87.4
+pooled,written,movement_contact,318,305,95.9,94.9,91.4,97.0
+pooled,written,movement_repetition,317,276,87.1,85.2,80.3,89.1
+pooled,written,non_manual_components,212,209,98.6,99.7,97.1,100.0
+pooled,drawing only,initial_position,316,181,57.3,58.1,51.9,64.1
+pooled,drawing only,initial_orientation,315,193,61.3,60.9,54.7,66.8
+pooled,drawing only,final_position,316,268,84.8,85.5,80.6,89.3
+pooled,drawing only,final_orientation,316,255,80.7,80.5,75.1,85.0

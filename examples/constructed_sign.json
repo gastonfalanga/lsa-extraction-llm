@@ -1,0 +1,72 @@
+{
+  "sign_id": "lsa_0000",
+  "spanish_word": "Ejemplo",
+  "english_word": "Example",
+  "ocr_data": {
+    "source_batch_file": "batch_000.pdf",
+    "source_page_ocr": 1,
+    "sign_index_on_page": 1,
+    "human_verification_level": 0,
+    "translation_confidence": 0.95,
+    "ocr_confidence": 0.8,
+    "visually_deduced_fields": [
+      "sign_variants[0].sequential_components[0].dominant_hand.initial_position",
+      "sign_variants[0].sequential_components[0].dominant_hand.initial_orientation",
+      "sign_variants[0].sequential_components[0].dominant_hand.final_position",
+      "sign_variants[0].sequential_components[0].dominant_hand.final_orientation"
+    ]
+  },
+  "meanings": [
+    {
+      "definition": "Seña inventada para ilustrar el formato; no pertenece a la LSA.",
+      "definition_en": "A made-up sign that illustrates the format; it is not an LSA sign."
+    }
+  ],
+  "sign_variants": [
+    {
+      "variant_id": 1,
+      "variant_label": "A",
+      "variant_type": "textual",
+      "sequential_components": [
+        {
+          "component_order": 1,
+          "dominant_hand": {
+            "initial_configuration": "Index",
+            "initial_position": {
+              "body": [
+                "Chin"
+              ]
+            },
+            "initial_orientation": {
+              "hand": [
+                "Palm inward"
+              ]
+            },
+            "movement": {
+              "manner": [
+                "Linear",
+                "Abrupt stop"
+              ],
+              "path": [
+                "Forward"
+              ],
+              "contact": false,
+              "repetition": false
+            },
+            "final_configuration": "Flat hand",
+            "final_position": {
+              "space": [
+                "Space in front of chest"
+              ]
+            },
+            "final_orientation": {
+              "hand": [
+                "Palm upward"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

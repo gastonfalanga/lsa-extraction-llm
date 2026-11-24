@@ -1,0 +1,23 @@
+kind,method,value,count
+error_type,dictation,Abbreviation misread,1
+error_type,dictation,Arrow semantics,40
+error_type,dictation,Catalog gap (nearest value forced),21
+error_type,dictation,Hand count or movement distribution,5
+error_type,dictation,Initial/final state swapped,2
+error_type,dictation,Text detail ignored,6
+error_type,dictation,Wrong inferred value,422
+catalog_gap,dictation,initial_configuration,7
+catalog_gap,dictation,initial_position,10
+catalog_gap,dictation,movement_manner,9
+catalog_gap,dictation,movement_path,11
+catalog_gap,dictation,non_manual_components,1
+non_error_verdict,drawing only,Ambiguous in source,1
+non_error_verdict,drawing only,Not applicable,20
+non_error_verdict,written,Not applicable,23
+non_error_verdict,written,Source inconsistent,3
+sign_tag,all,[missing hand],6
+sign_tag,all,[order],1
+sign_tag,all,[spurious component] (field rows),11
+sign_tag,all,[spurious variant],1
+sign_tag,all,[spurious variant] (field rows),22
+sign_tag,all,[undrawn variant] (field rows),4

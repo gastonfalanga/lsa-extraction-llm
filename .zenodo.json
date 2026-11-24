@@ -1,0 +1,21 @@
+{
+  "title": "LSA extraction methodology: code, schema, prompt and audit verdicts",
+  "upload_type": "software",
+  "description": "Companion repository of the paper 'Extracting sign parameters from a printed Argentine Sign Language dictionary with a multimodal LLM: schema validation and a blind audit'. Extraction prompt, JSON Schema, audit tool, analysis code and audit verdicts by opaque id. No dataset and no content of the source dictionary.",
+  "creators": [
+    {
+      "name": "Falanga, Gaston N.",
+      "orcid": "0009-0001-0147-756X"
+    }
+  ],
+  "license": "cc-by-nc-4.0",
+  "access_right": "open",
+  "keywords": [
+    "sign language",
+    "Argentine Sign Language",
+    "multimodal LLM",
+    "information extraction",
+    "JSON Schema",
+    "human-in-the-loop"
+  ]
+}

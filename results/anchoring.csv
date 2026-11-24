@@ -1,0 +1,9 @@
+group,excel_first_pass,blind_dictation,fields
+drawing only,Correct,Correct,216
+drawing only,Correct,Wrong,52
+drawing only,Wrong,Correct,4
+drawing only,Wrong,Wrong,31
+written,Correct,Correct,461
+written,Correct,Wrong,28
+written,Wrong,Correct,6
+written,Wrong,Wrong,23

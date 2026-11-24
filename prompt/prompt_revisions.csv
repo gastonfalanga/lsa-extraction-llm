@@ -1,0 +1,38 @@
+date,commit,message
+2026-08-22,635dcf6,Version 2 of Schema. Updated structure and enums
+2026-08-22,a9df5cd,including ocr_data.visually_deduced_fields array
+2026-08-22,b34b455,refactor: four-digit ID
+2026-08-22,e6f0ad9,min changes in the UI
+2026-08-22,367d330,Improvement in prompt
+2026-08-22,7cd93bb,"Refactor: moving sign orientation:[] to hand orientation:{hand,arm}"
+2026-08-23,78cb011,Adding movements to the enum
+2026-08-23,97fa946,add: Body Location vs. Spatial Location Disambiguation
+2026-08-23,5ce9e72,prompt: JSON Syntax & Escaping
+2026-08-23,9a529f5,Schema update: full list of possible space_location. Also Hand_shape is not nullable anymore
+2026-08-23,b6d5342,Prompt: Adding Strict Confidence Scoring Rules
+2026-08-23,efbcf49,Prompt: Final Configuration null unless pdf says otherwise
+2026-08-23,5ae4460,"Prompt: add missing shapes B and L; Remove escaping char not working; back ""Facial Expression"" since it's literally in the dictionary"
+2026-08-24,026455b,prompt: adding instructions on how to decompose movement into schema v2
+2026-08-25,2f9de34,Schema: MUTUALLY EXCLUSIVE LOCATIONS Body and Space
+2026-08-26,42b8cb1,Schema: more strict constrains; conf-pos-orient triad constrain
+2026-08-27,bdb0183,prompt: adding more details to the json example
+2026-08-27,1861ea6,prompt: clarification in Movs DH NHD BOTH
+2026-08-27,ff91e51,refactor: renaming ambiguous movement naming to hand_ and body_
+2026-08-27,90d34a5,"prompt: ""Lindo/a"" rule for initial and final movement represented by sequences"
+2026-08-27,1102900,prompt: adding movement literal map; schema: adding nmc_text for movements not mapped
+2026-08-28,fbb8cc9,prompt: minor tweaks
+2026-08-29,1001192,prompt: no empty arrays in mov objects
+2026-08-31,1452e35,prompt: adding IGNORE DECORATIVE ILLUSTRATIONS
+2026-08-31,a502dc2,schema and prompt: adding dual-hook and duo-thumb to hand shapes
+2026-08-31,f78f060,schema and promtp: adding Space in front of shoulder
+2026-09-01,aab88af,"schema: adding ""Teeth"" in positions for signs like Duro"
+2026-09-03,9125523,schema: adding flicking (tincazo) movement ie pill or bread
+2026-09-03,b7f851f,schema: adding Space in front of chest
+2026-09-04,94d44b3,"schema: enums: removing ""Opposite oscillatory or circular"" to be replaced by Oscillatory or Circular and Opposite converg or diverg"
+2026-09-09,95c4b88,Fix: missing pages or skipped
+2026-09-10,a9a47b1,prompt: adding Palm forward as orientation and clarification on num of signs per page
+2026-09-11,1a1db5d,prompt: adding COMPLEXITY CONTINGENCY section
+2026-09-13,1327095,data: fix: numbered meanings inside one meaning now splitted into separate meanings by python script
+2026-09-14,b0466f1,prompt: create_new_definitions now writes examples when blank
+2026-09-15,ee67811,Data: Structure: Flattening meaning.notes
+2026-09-16,4d2a6f5,workspace: folder and files organization

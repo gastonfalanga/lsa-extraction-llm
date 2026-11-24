@@ -1,0 +1,231 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Sign Language Morphological Schema V2",
+	"type": "object",
+	"additionalProperties": false,
+	"definitions": {
+		"handshape_enum": {
+			"type": "string",
+			"enum": [
+				"Flat hand", "Mitten", "B", "Angle", "Closed angle", "Five", "Four", "Three", "Middle finger", "Thumb-middle", "Fingers together", "Curve", "Oval", "Claw", "Fist", "Key", "Thumb", "Telephone", "Index", "Hook", "Horns", "Pinky", "V", "V-hook", "Duo", "Duo-hook", "Duo-thumb", "L", "Curved L", "Folded L", "L-oval", "Beak", "Pincer-oval", "Pincer-beak", "Fingerspelling letters"
+			]
+		},
+		"hand_movement_manner_enum": {
+			"type": "string",
+			"enum": [
+				"Oscillatory", "Linear", "Curved", "Circular", "Wrist rotation", "Wrist break", "Vibratory", "Bouncing", "Piano-playing", "Tapping", "Rubbing", "Abrupt stop", "Flicking", "Slow"
+			]
+		},
+		"hand_movement_path_enum": {
+			"type": "string",
+			"enum": [
+				"Downward", "Upward", "Forward", "Backward", "Inward", "Outward", "Divergent", "Convergent", "Alternating", "Simultaneous", "Opposite convergent", "Opposite divergent"
+			]
+		},
+		"body_location_enum": {
+			"type": "string",
+			"enum": [
+				"Head", "Forehead", "Eyes", "Ear", "Cheek", "Nose", "Mouth", "Teeth", "Chin", "Neck", "Side of the neck", "Throat", "Nape", 
+				"Shoulders", "Right chest", "Left chest", "Chest", "Opposite Arm", "Palm of the hand", "Back of the hand", "Elbow", "Abdomen"
+			]
+		},
+		"space_location_enum": {
+			"type": "string",
+			"enum": [ 
+				"dummy",
+				"Neutral space", "Space over shoulder right of head", "Space in front of face", "Space in front of chest", "Space in front of torso", "Space in front of shoulder", "Space in front of abdomen/waist", "Space to the side of the body", "Space to the side of the head", "Space above the head"
+			]
+		},
+		"hand_orientation_enum": {
+			"type": "string",
+			"enum": [ 
+				"dummy",
+				"Palm upward", "Palm downward", "Palm outward",  "Palm inward", "Palm forward", "Palm facing opposite hand", "Palm over opposite hand", "Palm against opposite hand"
+			]
+		},
+		"arm_orientation_enum": {
+			"type": "string",
+			"enum": [
+				"Arm horizontal", "Arm vertical", "Arm oblique", "Arm towards the body", "Arm upward", "Arm downward"
+			]
+		},
+		"nmc_facial_enum": {
+			"type": "string",
+			"enum": [
+				"Blowing", "Puffed cheeks", "One puffed cheek", "Sucked cheeks", "Tongue out", "Open mouth", "Closed eyes", "Half-closed eyes", "Furrowed eyebrows", "Questioning expression", "Facial expression"
+			]
+		},
+		"nmc_body_movement_enum": {
+			"type": "string",
+			"enum": [
+				"Shoulder movements", "Head movements", "Arm movements", "Shrugging", "Head tilting", "Head nodding", "Head back"
+			]
+		},
+		"location_object": {
+			"type": "object",
+			"additionalProperties": false,
+			"description": "Defines the exact location of the hand. Must be strictly either in body space OR neutral space, never both.",
+			"properties": {
+				"body": { 
+					"type": "array", 
+					"items": { "$ref": "#/definitions/body_location_enum" },
+					"minItems": 1
+				},
+				"space": { 
+					"type": "array", 
+					"items": { "$ref": "#/definitions/space_location_enum" },
+					"minItems": 1
+				}
+			},
+			"oneOf": [
+				{ "required": ["body"] },
+				{ "required": ["space"] }
+			]
+		},
+		"orientation_object": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"hand": { "type": "array", "items": { "$ref": "#/definitions/hand_orientation_enum" }, "minItems": 1  },
+				"arm": { "type": "array", "items": { "$ref": "#/definitions/arm_orientation_enum" }, "minItems": 1  }
+			},
+			"anyOf": [
+				{ "required": ["hand"] },
+				{ "required": ["arm"] }
+			]
+		},
+		"movement_object": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"manner": { "type": "array", "items": { "$ref": "#/definitions/hand_movement_manner_enum" }, "minItems": 1  },
+				"path": { "type": "array", "items": { "$ref": "#/definitions/hand_movement_path_enum" }, "minItems": 1  },
+				"contact": { "type": "boolean" },
+				"repetition": { "type": "boolean" }
+			},
+			"anyOf": [
+				{ "required": ["manner"] },
+				{ "required": ["path"] },
+				{ "required": ["contact"] },
+				{ "required": ["repetition"] }
+			]
+		},
+		"hand_morphology": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"initial_configuration": { "$ref": "#/definitions/handshape_enum" },
+				"final_configuration": { "$ref": "#/definitions/handshape_enum" },
+				"initial_position": { "$ref": "#/definitions/location_object" },
+				"final_position": { "$ref": "#/definitions/location_object" },
+				"movement": { "$ref": "#/definitions/movement_object" },
+				"initial_orientation": { "$ref": "#/definitions/orientation_object" },
+				"final_orientation": { "$ref": "#/definitions/orientation_object" }
+			},
+			"required": ["initial_configuration", "initial_position", "initial_orientation"],
+			"dependencies": {
+				"final_configuration": ["final_position", "final_orientation"],
+				"final_position": ["final_configuration", "final_orientation"],
+				"final_orientation": ["final_configuration", "final_position"]
+			}
+		}
+
+	},
+	"properties": {
+		"sign_id": { "type": "string", "pattern": "^lsa_\\d{4}$" },
+		"spanish_word": { "type": "string" },
+		"english_word": { "type": "string" },
+		"ocr_data": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"source_batch_file": { "type": "string" },
+				"source_page_ocr": { "type": "integer" },
+				"sign_index_on_page": { "type": "integer", "minimum": 1, "maximum": 5 },
+				"human_verification_level": { "type": "integer", "minimum": 0, "default": 0 },
+				"human_notes": { "type": "string" },
+				"translation_confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+				"ocr_confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+				"visually_deduced_fields": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+				"ocr_notes": { "type": "string" }
+			},
+			"required": [ "source_batch_file",  "sign_index_on_page",  "human_verification_level", "translation_confidence", "ocr_confidence",
+		
+			"source_page_ocr"
+		
+		
+		]
+		},
+		"meanings": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"additionalProperties": false,
+				"properties": {
+					"definition": { "type": "string" },
+					"definition_en": { "type": "string" },
+					"examples": { "type": "array", "items": { "type": "string" }, "minItems": 1  },
+					"examples_en": { "type": "array", "items": { "type": "string" }, "minItems": 1  },
+					"notes": {
+						"type": "object",
+						"additionalProperties": false,
+						"minProperties": 1,
+						"properties": {
+							"synonyms": { "type": "array", "items": { "type": "string" }, "minItems": 1  },
+							"synonyms_en": { "type": "array", "items": { "type": "string" }, "minItems": 1  },
+							"word_family": { "type": "array", "items": { "type": "string" }, "minItems": 1  },
+							"word_family_en": { "type": "array", "items": { "type": "string" }, "minItems": 1  },
+							"figurative_uses_expressions": { "type": "array", "items": { "type": "string" }, "minItems": 1  },
+							"figurative_uses_expressions_en": { "type": "array", "items": { "type": "string" }, "minItems": 1  }
+						}
+					}
+				},
+				"required": ["definition", "definition_en"]
+			}
+		},
+		"sign_variants": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"additionalProperties": false,
+				"properties": {
+					"variant_id": { "type": "integer", "minimum": 1 },
+					"variant_label": { "type": "string" },
+					"variant_type": { "type": "string", "enum": ["textual", "visual", "regional"] },
+					"sequential_components": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"additionalProperties": false,
+							"properties": {
+								"component_order": { "type": "integer", "minimum": 1 },
+								"execution_notes": { "type": "string" },
+								"execution_notes_en": { "type": "string" },
+								"non_manual_components": {
+									"type": "object",
+									"additionalProperties": false,
+									"minProperties": 1,
+									"properties": {
+										"facial_expression": { "type": "array", "items": { "$ref": "#/definitions/nmc_facial_enum" } },
+										"body_movement": { "type": "array", "items": { "$ref": "#/definitions/nmc_body_movement_enum" } },
+										"nmc_text": { "type": "string" }
+									},
+									"anyOf": [
+										{ "required": ["facial_expression"] },
+										{ "required": ["body_movement"] },
+										{ "required": ["nmc_text"] }
+									]
+								},
+								"dominant_hand": { "$ref": "#/definitions/hand_morphology" },
+								"non_dominant_hand": { "$ref": "#/definitions/hand_morphology" }
+							},
+							"required": ["component_order", "dominant_hand"]
+						}
+					}
+				},
+				"required": ["variant_id", "variant_label", "variant_type", "sequential_components"]
+			}
+		}
+	},
+	"required": ["sign_id", "spanish_word", "english_word", "ocr_data", "meanings", "sign_variants"]
+}

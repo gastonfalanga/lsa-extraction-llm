@@ -1,0 +1,5 @@
+method,group,n,correct,raw_%,weighted_%,ci95_low,ci95_high
+dictation,written,2115,1984,93.8,93.4,92.1,94.5
+dictation,drawing only,1263,897,71.0,71.3,68.4,74.0
+pooled,written,2115,1984,93.8,93.4,92.1,94.5
+pooled,drawing only,1263,897,71.0,71.3,68.4,74.0
